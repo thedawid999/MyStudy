@@ -41,25 +41,25 @@ class Database:
     #----------------------Methods for Course Database----------------------
     def add_course(self, course:Course):
         """adds a course to the database, if a grade for this course exists it will be added too"""
-        if course.grade is not 0:
-            self.cursor.execute("INSERT INTO courses (name, grade) VALUES (?, ?)", (course.name, course.grade))
+        if course.get_grade() is not 0:
+            self.cursor.execute("INSERT INTO courses (name, grade) VALUES (?, ?)", (course.get_name(), course.get_grade()))
         else:
-            self.cursor.execute("INSERT INTO courses (name) VALUES (?)", course.name)
+            self.cursor.execute("INSERT INTO courses (name) VALUES (?)", course.get_name())
         self.conn.commit()
 
     def delete_course(self, course:Course):
         """deletes a course from the database"""
-        self.cursor.execute("DELETE FROM courses WHERE name = ?", course.name)
+        self.cursor.execute("DELETE FROM courses WHERE name = ?", course.get_name())
         self.conn.commit()
 
     def add_grade(self, course:Course):
         """adds a grade to its course"""
-        self.cursor.execute("UPDATE courses SET grade = ? WHERE name = ?", (course.grade, course.name))
+        self.cursor.execute("UPDATE courses SET grade = ? WHERE name = ?", (course.get_grade(), course.get_name()))
         self.conn.commit()
 
     def delete_grade(self, course:Course):
         """deletes a grade from the database"""
-        self.cursor.execute("UPDATE courses SET grade = 0 WHERE name = ?", course.name)
+        self.cursor.execute("UPDATE courses SET grade = 0 WHERE name = ?", course.get_name())
         self.conn.commit()
 
     def get_courses(self):
@@ -70,11 +70,11 @@ class Database:
     #----------------------Methods for TimeGoal Database----------------------
     def add_time_goal(self, timegoal: TimeGoal):
         self.cursor.execute("INSERT INTO timegoals (title, startdate, deadline) VALUES (?,?,?)",
-                            (timegoal.title, timegoal.startdate, timegoal.deadline))
+                            (timegoal.get_title(), timegoal.get_startdate(), timegoal.get_deadline()))
         self.conn.commit()
 
     def delete_time_goal(self, timegoal:TimeGoal):
-        self.cursor.execute("DELETE FROM timegoals WHERE title = ?", timegoal.title)
+        self.cursor.execute("DELETE FROM timegoals WHERE title = ?", timegoal.get_title())
         self.conn.commit()
 
     def get_time_goals(self):
@@ -84,11 +84,11 @@ class Database:
     #----------------------Methods for ValueGoal Database----------------------
     def add_value_goal(self, valuegoal:ValueGoal):
         self.cursor.execute("INSERT INTO valuegoals (title, value) VALUES (?,?)",
-                            (valuegoal.title, valuegoal.value))
+                            (valuegoal.get_title(), valuegoal.get_value()))
         self.conn.commit()
 
     def delete_value_goal(self, valuegoal:ValueGoal):
-        self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", valuegoal.title)
+        self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", valuegoal.get_title())
         self.conn.commit()
 
     def get_value_goals(self):
