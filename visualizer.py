@@ -39,7 +39,7 @@ class Visualizer:
           my_program add_course "Math" 4.0
           my_program add_time_goal "Project" "2025-03-11" "2025-06-01"
           my_program get_courses
-        :return: 
+        :return:
         """
 
         return None
