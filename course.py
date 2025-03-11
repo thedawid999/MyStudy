@@ -1,3 +1,19 @@
 class Course:
-    name = None
-    grade = None
+    def __init__(self, name, grade, db):
+        self._name = name
+        self._grade = grade
+        self._db = db
+
+    def get_name(self):
+        return self._name
+
+    def get_grade(self):
+        return self._grade
+
+    def add_grade(self, grade:float):
+        #define method!
+        return None
+
+    def delete_grade(self):
+        #define method!
+        return None
