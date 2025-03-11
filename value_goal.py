@@ -11,8 +11,10 @@ class ValueGoal(Goal):
     def get_value(self):
         return self._value
 
+    @staticmethod
     def calculate_average(self):
         return None
 
+    @staticmethod
     def calculate_min_grade(self):
         return None
