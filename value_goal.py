@@ -1,7 +1,7 @@
 from goal import Goal
 
 class ValueGoal(Goal):
-    def __init__(self, title, value):
+    def __init__(self, title:str, value:float):
         super().__init__(title)
         self._value = value
 

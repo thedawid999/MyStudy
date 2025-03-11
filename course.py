@@ -1,5 +1,7 @@
+from database import Database
+
 class Course:
-    def __init__(self, name, grade, db):
+    def __init__(self, name:str, grade:float, db:Database):
         self._name = name
         self._grade = grade
         self._db = db

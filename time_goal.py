@@ -1,7 +1,8 @@
 from goal import Goal
+from datetime import date
 
 class TimeGoal(Goal):
-    def __init__(self, title, startdate, deadline):
+    def __init__(self, title: str, startdate:date, deadline:date):
         super().__init__(title)
         self._startdate = startdate
         self._deadline = deadline
