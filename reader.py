@@ -51,7 +51,3 @@ class Reader:
                 print("dashboard")
             case "exit":
                 exit()
-
-        return None
-        #define method!
-        #switch case?
