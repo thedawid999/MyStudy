@@ -10,3 +10,8 @@ class Visualizer:
     def show_grades(student:Student):
         #define method!
         return None
+
+    @staticmethod
+    def show_help():
+        #define method!
+        return None
