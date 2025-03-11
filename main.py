@@ -1,5 +1,8 @@
+from reader import Reader
+
 def main():
-    print("Hello World")
+    while True:
+        Reader.read_input()
 
 if __name__=="__main__":
     main()
