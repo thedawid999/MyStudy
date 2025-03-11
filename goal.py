@@ -1,0 +1,2 @@
+class Goal:
+    x=None
