@@ -9,6 +9,7 @@ class Reader:
         match command:
             case "help":
                 print("help")
+                #call visualizer directly
             case "addgoal":
                 if len(args) == 2:
                     print("value goal")
@@ -47,7 +48,9 @@ class Reader:
                 print("del student")
             case "showgrades":
                 print("show grades")
+                # call visualizer directly
             case "dashboard":
                 print("dashboard")
+                # call visualizer directly
             case "exit":
                 exit()
