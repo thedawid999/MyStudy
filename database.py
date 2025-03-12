@@ -2,7 +2,7 @@ import sqlite3
 from course import Course
 from time_goal import TimeGoal
 from value_goal import ValueGoal
-
+from goal import Goal
 
 # noinspection SqlNoDataSourceInspection
 class Database:
@@ -77,16 +77,27 @@ class Database:
             self.cursor.execute("SELECT name,grade FROM courses")
             return self.cursor.fetchall()
 
-    #----------------------Methods for TimeGoal Database----------------------
-    def add_time_goal(self, timegoal: TimeGoal):
-        """adds a time goal to the database with its title, startdate and deadline"""
-        self.cursor.execute("INSERT INTO timegoals (title, startdate, deadline) VALUES (?,?,?)",
-                            (timegoal.get_title(), timegoal.get_startdate(), timegoal.get_deadline()))
+    #----------------------Methods for TimeGoal and ValueGoal Database----------------------
+    def add_goal(self, goal: Goal):
+        """adds a TimeGoal or ValueGoal to the database"""
+        if isinstance(goal, TimeGoal):
+            self.cursor.execute("INSERT INTO timegoals (title, startdate, deadline) VALUES (?,?,?)",
+                                (goal.get_title(), goal.get_startdate(), goal.get_deadline()))
+        elif isinstance(goal, ValueGoal):
+            self.cursor.execute("INSERT INTO valuegoals (title, value) VALUES (?,?)",
+                                (goal.get_title(), goal.get_value()))
+        else:
+            raise TypeError("Goal must be of type TimeGoal or ValueGoal")
         self.conn.commit()
 
-    def delete_time_goal(self, timegoal:TimeGoal):
+    def delete_goal(self, goal:Goal):
         """deletes a time goal from the database"""
-        self.cursor.execute("DELETE FROM timegoals WHERE title = ?", timegoal.get_title())
+        if isinstance(goal, TimeGoal):
+            self.cursor.execute("DELETE FROM timegoals WHERE title = ?", goal.get_title())
+        elif isinstance(goal, ValueGoal):
+            self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", goal.get_title())
+        else:
+            raise TypeError("Goal must be of type TimeGoal or ValueGoal")
         self.conn.commit()
 
     def get_time_goals(self):
@@ -96,18 +107,6 @@ class Database:
         else:
             self.cursor.execute("SELECT title, startdate, deadline FROM timegoals")
             return self.cursor.fetchall()
-
-    #----------------------Methods for ValueGoal Database----------------------
-    def add_value_goal(self, valuegoal:ValueGoal):
-        """add a value goal to the database with its title and value"""
-        self.cursor.execute("INSERT INTO valuegoals (title, value) VALUES (?,?)",
-                            (valuegoal.get_title(), valuegoal.get_value()))
-        self.conn.commit()
-
-    def delete_value_goal(self, valuegoal:ValueGoal):
-        """deletes a value goal from the database"""
-        self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", valuegoal.get_title())
-        self.conn.commit()
 
     def get_value_goals(self):
         """returns all value goals from database if any exists"""
