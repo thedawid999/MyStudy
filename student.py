@@ -117,6 +117,7 @@ class Student:
         return None
 
     def delete_student(self):
-        #define method!
-        return None
+        self._db.delete_student()
+        exit()
+
 
