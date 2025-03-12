@@ -45,6 +45,11 @@ class Database:
         count = self.cursor.fetchone()[0]
         return count == 0
 
+    def delete_student(self):
+        self.cursor.execute("DELETE * FROM timegoals")
+        self.cursor.execute("DELETE * FROM valuegoals")
+        self.cursor.execute("DELETE * FROM courses")
+
     #----------------------Methods for Course Database----------------------
     def add_course(self, course:Course):
         """adds a course to the database, if a grade for this course exists it will be added too"""
