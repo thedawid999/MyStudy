@@ -1,6 +1,11 @@
+from event_handler import EventHandler
+from student import Student
+from visualizer import Visualizer
+from event import Event
+
 class Reader:
     @staticmethod
-    def read_input():
+    def read_input(student: Student):
         user_input = input("your input: ").lower().split()
 
         command = user_input[0]
@@ -8,49 +13,24 @@ class Reader:
 
         match command:
             case "help":
-                print("help")
-                #call visualizer directly
+                Visualizer.show_help()
             case "addgoal":
-                if len(args) == 2:
-                    print("value goal")
-                elif len(args) == 3:
-                    print("timegoal goal")
-                else:
-                    print("wrong input")
+                EventHandler.publish(Event.ADD_GOAL, args)
             case "delgoal":
-                if len(args) == 1:
-                    print("deleted")
-                else:
-                    print("wrong input")
+                EventHandler.publish(Event.DELETE_GOAL, args)
             case "addgrade":
-                if len(args) == 2:
-                    print("grade added")
-                else:
-                    print("wrong input")
+                EventHandler.publish(Event.ADD_GRADE, args)
             case "delgrade":
-                if len(args) == 1:
-                    print("grade deleted")
-                else:
-                    print("wrong input")
+                EventHandler.publish(Event.DELETE_GRADE, args)
             case "addcourse":
-                if len(args) == 1:
-                    print("course added")
-                elif len(args) == 2:
-                    print("course and grade added")
-                else:
-                    print("wrong input")
+                EventHandler.publish(Event.ADD_COURSE, args)
             case "delcourse":
-                if len(args) == 1:
-                    print("course deleted")
-                else:
-                    print("wrong input")
+                EventHandler.publish(Event.DELETE_COURSE, args)
             case "delstudent":
-                print("del student")
+                EventHandler.publish(Event.DELETE_STUDENT, None)
             case "showgrades":
-                print("show grades")
-                # call visualizer directly
+                Visualizer.show_grades(student)
             case "dashboard":
-                print("dashboard")
-                # call visualizer directly
+                Visualizer.show_dashboard(student)
             case "exit":
                 exit()
