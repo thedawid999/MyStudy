@@ -46,6 +46,7 @@ class Database:
         return count == 0
 
     def delete_student(self):
+        """deletes all data"""
         self.cursor.execute("DELETE * FROM timegoals")
         self.cursor.execute("DELETE * FROM valuegoals")
         self.cursor.execute("DELETE * FROM courses")
