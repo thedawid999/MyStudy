@@ -11,7 +11,7 @@ class Student:
         self._courses = courses
         self._goals = goals
         self._db = db
-        #IN CASE DATABASE HAS DATA, IMPORT THEM FROM DATABASE
+        #TODO: if database has datam import it from database
 
     def get_courses(self):
         """returns the list of courses from object"""
@@ -113,7 +113,7 @@ class Student:
             print("this goal does not exist!")
 
     def calculate_finished_courses(self):
-        #define method!
+        #TODO: define method!
         return None
 
     def delete_student(self):

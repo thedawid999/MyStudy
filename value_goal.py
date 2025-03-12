@@ -13,8 +13,10 @@ class ValueGoal(Goal):
 
     @staticmethod
     def calculate_average(self):
+        # TODO: define method!
         return None
 
     @staticmethod
     def calculate_min_grade(self):
+        # TODO: define method!
         return None

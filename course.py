@@ -13,9 +13,9 @@ class Course:
         return self._grade
 
     def add_grade(self, grade:float):
-        #define method!
+        #TODO: define method!
         return None
 
     def delete_grade(self):
-        #define method!
+        #TODO: define method!
         return None

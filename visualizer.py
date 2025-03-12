@@ -3,17 +3,17 @@ from student import Student
 class Visualizer:
     @staticmethod
     def show_dashboard(student:Student):
-        #define method!
+        #TODO: define method!
         return None
 
     @staticmethod
     def show_grades(student:Student):
-        #define method!
+        #TODO: define method!
         return None
 
     @staticmethod
     def show_help():
-        #define method!
+        #TODO: define method!
         """
         Usage: my_program [OPTIONS] COMMAND [ARGS]...
 
