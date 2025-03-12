@@ -7,6 +7,7 @@ class Student:
         self._courses = courses
         self._goals = goals
         self._db = db
+        #IN CASE DATABASE HAS DATA, IMPORT THEM FROM DATABASE
 
     def get_courses(self):
         return self._courses

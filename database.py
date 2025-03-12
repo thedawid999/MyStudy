@@ -38,6 +38,13 @@ class Database:
             )
         ''')
 
+    # ----------------------General----------------------
+    def is_table_empty(self, table: str):
+        """checks if a table is empty"""
+        self.cursor.execute("SELECT count(*) FROM {table}")
+        count = self.cursor.fetchone()[0]
+        return count == 0
+
     #----------------------Methods for Course Database----------------------
     def add_course(self, course:Course):
         """adds a course to the database, if a grade for this course exists it will be added too"""
@@ -64,8 +71,11 @@ class Database:
 
     def get_courses(self):
         """returns all courses from database"""
-        self.cursor.execute("SELECT name,grade FROM courses")
-        return self.cursor.fetchall()
+        if self.is_table_empty("courses"):
+            return None
+        else:
+            self.cursor.execute("SELECT name,grade FROM courses")
+            return self.cursor.fetchall()
 
     #----------------------Methods for TimeGoal Database----------------------
     def add_time_goal(self, timegoal: TimeGoal):
@@ -78,8 +88,11 @@ class Database:
         self.conn.commit()
 
     def get_time_goals(self):
-        self.cursor.execute("SELECT title, startdate, deadline FROM timegoals")
-        return self.cursor.fetchall()
+        if self.is_table_empty("timegoals"):
+            return None
+        else:
+            self.cursor.execute("SELECT title, startdate, deadline FROM timegoals")
+            return self.cursor.fetchall()
 
     #----------------------Methods for ValueGoal Database----------------------
     def add_value_goal(self, valuegoal:ValueGoal):
@@ -92,5 +105,9 @@ class Database:
         self.conn.commit()
 
     def get_value_goals(self):
-        self.cursor.execute("SELECT title, value FROM valuegoals")
-        return self.cursor.fetchall()
+        if self.is_table_empty("valuegoals"):
+            return None
+        else:
+            self.cursor.execute("SELECT title, value FROM valuegoals")
+            return self.cursor.fetchall()
+
