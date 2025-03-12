@@ -70,7 +70,7 @@ class Database:
         self.conn.commit()
 
     def get_courses(self):
-        """returns all courses from database"""
+        """returns all courses from database if any exists"""
         if self.is_table_empty("courses"):
             return None
         else:
@@ -79,15 +79,18 @@ class Database:
 
     #----------------------Methods for TimeGoal Database----------------------
     def add_time_goal(self, timegoal: TimeGoal):
+        """adds a time goal to the database with its title, startdate and deadline"""
         self.cursor.execute("INSERT INTO timegoals (title, startdate, deadline) VALUES (?,?,?)",
                             (timegoal.get_title(), timegoal.get_startdate(), timegoal.get_deadline()))
         self.conn.commit()
 
     def delete_time_goal(self, timegoal:TimeGoal):
+        """deletes a time goal from the database"""
         self.cursor.execute("DELETE FROM timegoals WHERE title = ?", timegoal.get_title())
         self.conn.commit()
 
     def get_time_goals(self):
+        """returns all time goals from database if any exists"""
         if self.is_table_empty("timegoals"):
             return None
         else:
@@ -96,15 +99,18 @@ class Database:
 
     #----------------------Methods for ValueGoal Database----------------------
     def add_value_goal(self, valuegoal:ValueGoal):
+        """add a value goal to the database with its title and value"""
         self.cursor.execute("INSERT INTO valuegoals (title, value) VALUES (?,?)",
                             (valuegoal.get_title(), valuegoal.get_value()))
         self.conn.commit()
 
     def delete_value_goal(self, valuegoal:ValueGoal):
+        """deletes a value goal from the database"""
         self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", valuegoal.get_title())
         self.conn.commit()
 
     def get_value_goals(self):
+        """returns all value goals from database if any exists"""
         if self.is_table_empty("valuegoals"):
             return None
         else:
