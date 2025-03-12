@@ -1,10 +1,10 @@
 from database import Database
 
 class Course:
-    def __init__(self, name:str, grade:float, db:Database):
+    def __init__(self, name:str, db:Database,grade:float=0):
         self._name = name
-        self._grade = grade
         self._db = db
+        self._grade = grade
 
     def get_name(self):
         return self._name
