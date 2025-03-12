@@ -5,11 +5,11 @@ class EventHandler:
     subscribers = {}
 
     @staticmethod
-    def subscribe(event: Event, handler: Callable):
+    def subscribe(event: Event, method: Callable):
         """Adds a subscriber to the list"""
         if event not in EventHandler.subscribers:
             EventHandler.subscribers[event] = []
-        EventHandler.subscribers[event].append(handler)
+        EventHandler.subscribers[event].append(method)
 
 
     @staticmethod
