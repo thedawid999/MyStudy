@@ -15,7 +15,7 @@ class EventHandler:
     @staticmethod
     def publish(event: Event, data: str):
         """publishes data to all handlers subscribed to that event"""
-        if event not in EventHandler.subscribers:
+        if event in EventHandler.subscribers:
             for handler in EventHandler.subscribers.get(event, []):
                 handler(data)
         else:
