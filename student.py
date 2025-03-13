@@ -147,8 +147,11 @@ class Student:
         print("course does not exist!")
 
     def calculate_finished_courses(self):
-        #TODO: define method!
-        return None
+        finished = 0
+        for course in self._courses:
+            if course.get_grade() != 0:
+                finished += 1
+        return finished
 
     def delete_student(self):
         self._db.delete_student()
