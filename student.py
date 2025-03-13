@@ -64,6 +64,8 @@ class Student:
             if args[0] == course.get_name():
                 self._courses.remove(course)
                 self._db.delete_course(course)
+                return
+            print("course does not exist!")
 
     def add_goal(self, *args):
         """
@@ -109,8 +111,40 @@ class Student:
             if args[0] == goal.get_title():
                 self._goals.remove(goal)
                 self._db.delete_goal(goal)
-        else:
+                return
             print("this goal does not exist!")
+
+    def add_grade(self, *args):
+        """
+        - checks if given course name exists in course list
+        - check if second argument is between 1 and 6
+        if so, the rest of the logic continues in Course-class
+        :param args: course name, grade
+        :return:
+        """
+        try:
+            if 1 > float(args[1]) < 6:
+                raise ValueError
+            for course in self._courses:
+                if course.get_name() == args[0]:
+                    course.add_grade(float(args[1]))
+                    return
+                print("course does not exist!")
+        except ValueError:
+            print("correct format of addgrade is COURSE NAME (str) GRADE (float between 1 and 6)")
+
+    def delete_grade(self, *args):
+        """
+        - checks if given course name exists in course list
+        if so, the rest of the logic continues in Course-class
+        :param args: course name
+        :return:
+        """
+        for course in self._courses:
+            if args[0] == course.get_name():
+                course.delete_grade()
+                return
+        print("course does not exist!")
 
     def calculate_finished_courses(self):
         #TODO: define method!

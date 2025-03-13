@@ -7,15 +7,20 @@ class Course:
         self._grade = grade
 
     def get_name(self):
+        """returns Course name"""
         return self._name
 
     def get_grade(self):
+        """returns Course grade"""
         return self._grade
 
     def add_grade(self, grade:float):
-        #TODO: define method!
-        return None
+        """adds a new grade"""
+        self._grade = grade
+        self._db.add_grade(self)
 
     def delete_grade(self):
-        #TODO: define method!
+        """deletes a grade"""
+        self._grade = 0
+        self._db.delete_grade(self)
         return None
