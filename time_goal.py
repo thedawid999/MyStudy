@@ -14,5 +14,5 @@ class TimeGoal(Goal):
         return self._deadline
 
     def calculate_remaining_time(self):
-        # TODO: define method!
-        return None
+        remaining_time = self._startdate - self._deadline
+        return remaining_time
