@@ -1,11 +1,10 @@
 from event_handler import EventHandler
-from student import Student
 from visualizer import Visualizer
 from event import Event
 
 class Reader:
     @staticmethod
-    def read_input(student: Student):
+    def read_input():
         user_input = input("your input: ").lower().split()
 
         command = user_input[0]
@@ -29,8 +28,8 @@ class Reader:
             case "delstudent":
                 EventHandler.publish(Event.DELETE_STUDENT, None)
             case "showgrades":
-                EventHandler.publish(Event.SHOW_GRADES, None)
+                Visualizer.show_grades()
             case "dashboard":
-                EventHandler.publish(Event.SHOW_DASHBOARD, None)
+                Visualizer.show_dashboard()
             case "exit":
                 exit()

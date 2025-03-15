@@ -23,14 +23,6 @@ class Student:
         EventHandler.subscribe(Event.ADD_COURSE, self.add_course)
         EventHandler.subscribe(Event.DELETE_COURSE, self.delete_course)
         EventHandler.subscribe(Event.DELETE_STUDENT, self.delete_student)
-        EventHandler.subscribe(Event.SHOW_GRADES, self.__show_grades)
-        EventHandler.subscribe(Event.SHOW_DASHBOARD, self.__show_dashboard)
-
-    def __show_grades(self):
-        Visualizer.show_grades(self)
-
-    def __show_dashboard(self):
-        Visualizer.show_dashboard(self)
 
     def get_courses(self):
         """returns the list of courses from object"""

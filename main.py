@@ -6,6 +6,7 @@ from student import Student
 def main():
     db = Database()
     student = Student(db)
+    Visualizer.set_student(student)
 
     #TODO: finish here
     #TODO: SUBSCRIBE TO EVENTS!!!

@@ -1,13 +1,18 @@
 from student import Student
 
 class Visualizer:
+    _student = None
     @staticmethod
-    def show_dashboard(student:Student):
+    def set_student(student: Student):
+        Visualizer._student = student
+
+    @staticmethod
+    def show_dashboard():
         #TODO: define method!
         return None
 
     @staticmethod
-    def show_grades(student:Student):
+    def show_grades():
         #TODO: define method!
         return None
 
