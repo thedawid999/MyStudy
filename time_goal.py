@@ -16,3 +16,7 @@ class TimeGoal(Goal):
     def calculate_remaining_time(self):
         remaining_time = self._startdate - self._deadline
         return remaining_time
+
+    @staticmethod
+    def to_timegoal(data):
+        return TimeGoal(data[1], data[2], data[3])

@@ -24,7 +24,7 @@ class Database:
 
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS valuegoals (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY CHECK (id=1),
                 title TEXT NOT NULL,
                 value REAL NOT NULL,
             )
@@ -78,7 +78,7 @@ class Database:
     def get_courses(self):
         """returns all courses from database if any exists"""
         if self.is_table_empty("courses"):
-            return None
+            return []
         else:
             self.cursor.execute("SELECT name,grade FROM courses")
             return self.cursor.fetchall()
@@ -109,7 +109,7 @@ class Database:
     def get_time_goals(self):
         """returns all time goals from database if any exists"""
         if self.is_table_empty("timegoals"):
-            return None
+            return []
         else:
             self.cursor.execute("SELECT title, startdate, deadline FROM timegoals")
             return self.cursor.fetchall()

@@ -24,3 +24,7 @@ class Course:
         self._grade = 0
         self._db.delete_grade(self)
         return None
+
+    @staticmethod
+    def to_course(data, db:Database):
+        return Course(data[1], db, data[2])

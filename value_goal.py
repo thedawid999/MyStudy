@@ -33,3 +33,7 @@ class ValueGoal(Goal):
             if course.grade != 0:
                 grades.append(course.grade)
         return grades
+
+    @staticmethod
+    def to_valuegoal(data):
+        return ValueGoal(data[1], data[2])

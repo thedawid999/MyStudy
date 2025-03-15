@@ -1,20 +1,27 @@
 from database import Database
-from goal import Goal
 from course import Course
 from time_goal import TimeGoal
 from value_goal import ValueGoal
 from datetime import date
 from event_handler import EventHandler
 from event import Event
-from visualizer import Visualizer
-
 
 class Student:
     def __init__(self, db: Database):
+        self._db = db
         self._courses = []
         self._goals = []
-        self._db = db
-        #TODO: if database has datam import it from database
+        if not db.is_table_empty("courses"):
+            data = db.get_courses()
+            for d in data:
+                self._courses.append(Course.to_course(d, db))
+        if not db.is_table_empty("timegoals"):
+            data = db.get_time_goals()
+            for d in data:
+                self._goals.append(TimeGoal.to_timegoal(d))
+        if not db.is_table_empty("valuegoals"):
+            data = db.get_value_goals()
+            self._goals.append(ValueGoal.to_valuegoal(data))
 
         EventHandler.subscribe(Event.ADD_GOAL, self.add_goal)
         EventHandler.subscribe(Event.DELETE_GOAL, self.delete_goal)
