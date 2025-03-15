@@ -6,11 +6,15 @@ from datetime import date
 from event_handler import EventHandler
 from event import Event
 
+MAX_TIME_GOALS = 3
+MAX_VALUE_GOALS = 1
+
 class Student:
     def __init__(self, db: Database):
         self._db = db
         self._courses = []
         self._goals = []
+
         if not db.is_table_empty("courses"):
             data = db.get_courses()
             for d in data:
@@ -38,14 +42,6 @@ class Student:
     def get_goals(self):
         """returns the list of goals from object"""
         return self._goals
-
-    def read_courses(self):
-        """returns courses from database, will be used for data loading at the beginning"""
-        return self._db.get_courses()
-
-    def read_goals(self):
-        """returns goals from database, will be used for data loading at the beginning"""
-        return self._db.get_value_goals() + self._db.get_time_goals()
 
     def add_course(self, *args):
         """
@@ -97,6 +93,7 @@ class Student:
             - checks if second argument is an earlier date than the second argument
             - adds it to _goals and to database
             - else: raise ValueError
+        verifies the amount of TimeGoals and ValueGoals, already exisiting (TimeGoal max. 3, ValueGoal max. 1)
         :param args: title, value OR title, startdate, deadline
         :return: none
         """
@@ -107,15 +104,21 @@ class Student:
                     self._db.add_goal(ValueGoal(args[0], float(args[1])))
                 else:
                     raise ValueError
+                if sum(1 for goal in self._goals if isinstance(goal, ValueGoal)) == MAX_VALUE_GOALS:
+                    raise OverflowError
             elif len(args) == 3:
                 if date.fromisoformat(args[1]) < date.fromisoformat(args[2]):
                     self._goals.append(TimeGoal(args[0], args[1], args[2]))
                     self._db.add_goal(TimeGoal(args[0], args[1], args[2]))
                 else:
                     raise ValueError
+                if sum(1 for goal in self._goals if isinstance(goal, TimeGoal)) == MAX_TIME_GOALS:
+                    raise OverflowError
         except ValueError:
             print("correct format of value goal is TITLE (str) VALUE (float between 1 and 6)")
             print("correct format of time goal is TITLE (str) STARTDATE (yyyymmdd) DEADLINE (yyyymmdd)")
+        except OverflowError:
+            print(f"maximal amount of TimeGoals is ${MAX_TIME_GOALS}, maximal amount of ValueGoals is ${MAX_VALUE_GOALS}")
 
 
     def delete_goal(self, *args):

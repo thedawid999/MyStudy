@@ -24,7 +24,7 @@ class Database:
 
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS valuegoals (
-                id INTEGER PRIMARY KEY CHECK (id=1),
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 value REAL NOT NULL,
             )
