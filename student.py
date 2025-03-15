@@ -4,14 +4,33 @@ from course import Course
 from time_goal import TimeGoal
 from value_goal import ValueGoal
 from datetime import date
+from event_handler import EventHandler
+from event import Event
+from visualizer import Visualizer
 
 
 class Student:
-    def __init__(self, courses: list[Course], goals: list[Goal], db: Database):
-        self._courses = courses
-        self._goals = goals
+    def __init__(self, db: Database):
+        self._courses = []
+        self._goals = []
         self._db = db
         #TODO: if database has datam import it from database
+
+        EventHandler.subscribe(Event.ADD_GOAL, self.add_goal)
+        EventHandler.subscribe(Event.DELETE_GOAL, self.delete_goal)
+        EventHandler.subscribe(Event.ADD_GRADE, self.add_grade)
+        EventHandler.subscribe(Event.DELETE_GRADE, self.delete_grade)
+        EventHandler.subscribe(Event.ADD_COURSE, self.add_course)
+        EventHandler.subscribe(Event.DELETE_COURSE, self.delete_course)
+        EventHandler.subscribe(Event.DELETE_STUDENT, self.delete_student)
+        EventHandler.subscribe(Event.SHOW_GRADES, self.__show_grades)
+        EventHandler.subscribe(Event.SHOW_DASHBOARD, self.__show_dashboard)
+
+    def __show_grades(self):
+        Visualizer.show_grades(self)
+
+    def __show_dashboard(self):
+        Visualizer.show_dashboard(self)
 
     def get_courses(self):
         """returns the list of courses from object"""

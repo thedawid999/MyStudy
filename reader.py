@@ -29,8 +29,8 @@ class Reader:
             case "delstudent":
                 EventHandler.publish(Event.DELETE_STUDENT, None)
             case "showgrades":
-                Visualizer.show_grades(student)
+                EventHandler.publish(Event.SHOW_GRADES, None)
             case "dashboard":
-                Visualizer.show_dashboard(student)
+                EventHandler.publish(Event.SHOW_DASHBOARD, None)
             case "exit":
                 exit()

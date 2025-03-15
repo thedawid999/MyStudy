@@ -8,4 +8,6 @@ class Event(Enum):
     ADD_GRADE = "add_grade"
     DELETE_GRADE = "delete_grade"
     DELETE_STUDENT = "delete_student"
+    SHOW_GRADES = "show_grades"
+    SHOW_DASHBOARD = "show_dashboard"
 
