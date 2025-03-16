@@ -41,28 +41,28 @@ class Database:
     # ----------------------General----------------------
     def is_table_empty(self, table: str):
         """checks if a table is empty"""
-        self.cursor.execute("SELECT count(*) FROM {table}")
+        self.cursor.execute("SELECT count(*) FROM "+table)
         count = self.cursor.fetchone()[0]
         return count == 0
 
     def delete_student(self):
         """deletes all data"""
-        self.cursor.execute("DELETE * FROM timegoals")
-        self.cursor.execute("DELETE * FROM valuegoals")
-        self.cursor.execute("DELETE * FROM courses")
+        self.cursor.execute("DELETE FROM timegoals")
+        self.cursor.execute("DELETE FROM valuegoals")
+        self.cursor.execute("DELETE FROM courses")
 
     #----------------------Methods for Course Database----------------------
     def add_course(self, course:Course):
         """adds a course to the database, if a grade for this course exists it will be added too"""
-        if course.get_grade() is not 0:
+        if course.get_grade() != 0:
             self.cursor.execute("INSERT INTO courses (name, grade) VALUES (?, ?)", (course.get_name(), course.get_grade()))
         else:
-            self.cursor.execute("INSERT INTO courses (name) VALUES (?)", course.get_name())
+            self.cursor.execute("INSERT INTO courses (name) VALUES (?)", (course.get_name()))
         self.conn.commit()
 
     def delete_course(self, course:Course):
         """deletes a course from the database"""
-        self.cursor.execute("DELETE FROM courses WHERE name = ?", course.get_name())
+        self.cursor.execute("DELETE FROM courses WHERE name = ?", (course.get_name()))
         self.conn.commit()
 
     def add_grade(self, course:Course):
@@ -72,7 +72,7 @@ class Database:
 
     def delete_grade(self, course:Course):
         """deletes a grade from the database"""
-        self.cursor.execute("UPDATE courses SET grade = 0 WHERE name = ?", course.get_name())
+        self.cursor.execute("UPDATE courses SET grade = 0 WHERE name = ?", (course.get_name()))
         self.conn.commit()
 
     def get_courses(self):
@@ -99,9 +99,9 @@ class Database:
     def delete_goal(self, goal:Goal):
         """deletes a time goal from the database"""
         if isinstance(goal, TimeGoal):
-            self.cursor.execute("DELETE FROM timegoals WHERE title = ?", goal.get_title())
+            self.cursor.execute("DELETE FROM timegoals WHERE title = ?", (goal.get_title()))
         elif isinstance(goal, ValueGoal):
-            self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", goal.get_title())
+            self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", (goal.get_title())
         else:
             raise TypeError("Goal must be of type TimeGoal or ValueGoal")
         self.conn.commit()
@@ -121,4 +121,7 @@ class Database:
         else:
             self.cursor.execute("SELECT title, value FROM valuegoals")
             return self.cursor.fetchall()
+
+    def close(self):
+        self.cursor.close()
 

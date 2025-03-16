@@ -5,11 +5,15 @@ from visualizer import Visualizer
 
 def main():
     db = Database()
-    student = Student(db)
-    Visualizer.set_student(student)
+    try:
+        student = Student(db)
+        Visualizer.set_student(student)
 
-    while True:
-        Reader.read_input()
+        Visualizer.show_dashboard()
+        while True:
+            Reader.read_input()
+    finally:
+        db.close()
 
 if __name__=="__main__":
     main()

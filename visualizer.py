@@ -1,7 +1,14 @@
 from student import Student
+from rich.table import Table
+from rich.console import Console
+from rich import print
 
 class Visualizer:
     _student = None
+    _table = Table()
+    _table.add_column("Deadlines")
+    _table.add_column("Progress")
+
     @staticmethod
     def set_student(student: Student):
         Visualizer._student = student
@@ -9,6 +16,8 @@ class Visualizer:
     @staticmethod
     def show_dashboard():
         #TODO: define method!
+        print("MY STUDY DASHBOARD")
+        print(Visualizer._table)
         return None
 
     @staticmethod
