@@ -84,7 +84,7 @@ class Student:
                 self._courses.remove(course)
                 self._db.delete_course(course)
                 return
-            print("[red italic]--> course does not exist!")
+        print("[red italic]--> course does not exist!")
 
     def add_goal(self, args):
         """
@@ -144,7 +144,7 @@ class Student:
                 self._goals.remove(goal)
                 self._db.delete_goal(goal)
                 return
-            print("[red italic]--> this goal does not exist!")
+        print("[red italic]--> this goal does not exist!")
 
     def add_grade(self, args):
         """
@@ -161,7 +161,7 @@ class Student:
                 if course.get_name() == args[0]:
                     course.add_grade(float(args[1]))
                     return
-                print("[red italic]--> course does not exist!")
+            print("[red italic]--> course does not exist!")
         except ValueError:
             print("[red italic]--> correct format of addgrade is COURSE NAME (str) GRADE (float between 1 and 6)")
 

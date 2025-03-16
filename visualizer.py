@@ -5,10 +5,10 @@ from time_goal import TimeGoal
 from value_goal import ValueGoal
 from rich.padding import Padding
 from rich import print
-from rich.columns import Columns
 from rich.panel import Panel
 from rich.console import Group, Console
 from rich.text import Text
+from rich.table import Table
 
 class Visualizer:
     _student: Student = None
@@ -90,6 +90,7 @@ class Visualizer:
 
     @staticmethod
     def show_dashboard():
+        """displays main dashboard"""
         title = Text("MY STUDY DASHBOARD", justify="center", style="bold red")
         print(Align(title, align="center"))
 
@@ -99,36 +100,96 @@ class Visualizer:
 
     @staticmethod
     def show_grades():
-        #TODO: define method!
-        return None
+        """displays all grades"""
+        title = Text("MY GRADES", justify="center", style="bold red")
+        title.append(" (to achieve Goal)", style="yellow")
+        min_grade = 0
+
+        student = Visualizer._student
+        courses = student.get_courses()
+
+        if not courses:
+            print("[bold red]No courses available.[/]")
+
+        table = Table(border_style="grey54", show_lines=True)
+
+        # Define 3 columns
+        table.add_column("Course", justify="left", style="white")
+        table.add_column("Grade", justify="center", style="yellow")
+        table.add_column("Status", justify="right", style="bold green")
+
+        for goal in student.get_goals():
+            if isinstance(goal, ValueGoal):
+                min_grade = ValueGoal.calculate_min_grade(student)
+
+        for course in courses:
+            grade = course.get_grade()
+            status = "Passed" if grade and grade <= 4.0 else "Failed" if grade else "Pending..."
+            status_style = "bold green" if status == "Passed" else "bold red" if status == "Failed" else "dark_orange"
+
+            table.add_row(course.get_name(), Visualizer.get_grade(grade, min_grade),f"[{status_style}]{status}[/]")
+
+        print(Align(title, align="center"))
+        print(Align(table, align="center"))
+
+    @staticmethod
+    def get_grade(grade, min_grade):
+        if grade != 0:
+            return f"{grade}"
+        elif min_grade !=0:
+            return f"N/A [bold yellow]({min_grade:.1f})[/]"
+        else:
+            return "N/A"
 
     @staticmethod
     def show_help():
-        #TODO: define method!
-        """
-        A simple program to manage your courses, grades and goals
+        """displays all commands"""
+        console = Console()
 
-        Usage: [COMMAND] [ARGS]
+        help_text = Text()
+        help_text.append("\nA simple program to manage your courses, grades, and goals\n\n", style="bold cyan")
 
-        Commands:
-          addcourse NAME                        Add a course only.
-          addcourse NAME GRADE                  Add a course with a grade.
-          delcourse NAME                        Remove a course by name.
-          addgrade COURSENAME GRADE             Add a grade to an existing course.
-          delgrade COURSENAME                   Remove a grade from an existing course.
-          addgoal TITLE STARTDATE DEADLINE      Add a time goal, format of STARTDATE and DEADLINE is YYYY-MM-DD.
-          addgoal TITLE VALUE                   Add a value goal.
-          delgoal TITLE                         Remove a goal by title.
-          help                                  Display all commands.
-          showgrades                            Display all courses and grades.
-          dashboard                             Display dashbaord (main screen).
-          exit
+        help_text.append("Usage: ", style="bold white")
+        help_text.append("[ ", style="white")
+        help_text.append("COMMAND", style="italic yellow")
+        help_text.append(" ] [ ", style="white")
+        help_text.append("ARGS", style="italic magenta")
+        help_text.append(" ]\n\n", style="white")
 
-        Examples:
-          addcourse Mathematik:Analysis 2.1
-          addgrade Informatik 3.0
-          addgoal ProjektX 20250101 20250601
-          addgoal Notenschnitt 1.5
-        """
+        help_text.append("Commands:\n", style="bold underline blue")
 
-        return None
+        commands = [
+            ("addcourse", "NAME", "Add a course only."),
+            ("addcourse", "NAME GRADE", "Add a course with a grade."),
+            ("delcourse", "NAME", "Remove a course by name."),
+            ("addgrade", "COURSENAME GRADE", "Add a grade to an existing course."),
+            ("delgrade", "COURSENAME", "Remove a grade from an existing course."),
+            ("addgoal", "TITLE STARTDATE DEADLINE", "Add a time goal (YYYY-MM-DD format)."),
+            ("addgoal", "TITLE VALUE", "Add a value goal."),
+            ("delgoal", "TITLE", "Remove a goal by title."),
+            ("help", " ", "Display all commands."),
+            ("showgrades", " ", "Display all courses and grades."),
+            ("dashboard", " ", "Display dashboard (main screen)."),
+            ("exit", " ", "Exit the program."),
+        ]
+
+        for command, args, description in commands:
+            help_text.append(f"  {command:13}", style="bold yellow")
+            if args:
+                help_text.append(f"{args:<28}", style="italic magenta")
+            help_text.append(f"{description}\n", style="white")
+
+        help_text.append("\nExamples:\n", style="bold underline blue")
+
+        examples = [
+            ("addcourse", "Mathematik:Analysis 2.1"),
+            ("addgrade", "Informatik 3.0"),
+            ("addgoal", "ProjektX 20250101 20250601"),
+            ("addgoal", "Notenschnitt 1.5"),
+        ]
+
+        for command, example in examples:
+            help_text.append(f"  {command} ", style="bold yellow")
+            help_text.append(f"{example}\n", style="italic magenta")
+
+        console.print(Panel(help_text, title="Help", border_style="bright_blue"))

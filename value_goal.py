@@ -22,11 +22,21 @@ class ValueGoal(Goal):
         avg = sum(grades) / len(grades)
         return avg
 
-    def calculate_min_grade(self, student: "Student"):
+    @staticmethod
+    def calculate_min_grade(student: "Student"):
         grades = ValueGoal.__extract_grades(student)
         courses = student.get_courses()
+        value = 0
 
-        minimum = (self._value*len(courses)-sum(grades))/(len(courses)-len(grades))
+
+        for goal in student.get_goals():
+            if isinstance(goal, ValueGoal):
+                value = goal.get_value()
+
+        try:
+            minimum = (value*len(courses)-sum(grades))/(len(courses)-len(grades))
+        except ZeroDivisionError:
+            return 0
         return minimum
 
     @staticmethod
