@@ -1,5 +1,7 @@
+from typing import TYPE_CHECKING
 from goal import Goal
-from student import Student
+if TYPE_CHECKING:
+    from student import Student
 
 class ValueGoal(Goal):
     def __init__(self, title:str, value:float):
@@ -13,27 +15,28 @@ class ValueGoal(Goal):
         return self._value
 
     @staticmethod
-    def calculate_average(self, student:Student):
-        grades = ValueGoal.__extract_grades(self, student)
+    def calculate_average(student: "Student"):
+        grades = ValueGoal.__extract_grades(student)
+        if len(grades) == 0:
+            return 0.0
         avg = sum(grades) / len(grades)
         return avg
 
-    @staticmethod
-    def calculate_min_grade(self, student:Student):
-        grades = ValueGoal.__extract_grades(self, student)
+    def calculate_min_grade(self, student: "Student"):
+        grades = ValueGoal.__extract_grades(student)
         courses = student.get_courses()
 
         minimum = (self._value*len(courses)-sum(grades))/(len(courses)-len(grades))
         return minimum
 
     @staticmethod
-    def __extract_grades(self, student:Student):
+    def __extract_grades(student:"Student"):
         grades = []
         for course in student.get_courses():
-            if course.grade != 0:
-                grades.append(course.grade)
+            if course.get_grade() != 0:
+                grades.append(course.get_grade())
         return grades
 
     @staticmethod
     def to_valuegoal(data):
-        return ValueGoal(data[1], data[2])
+        return ValueGoal(data[0], data[1])

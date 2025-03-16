@@ -2,8 +2,10 @@ from database import Database
 from reader import Reader
 from student import Student
 from visualizer import Visualizer
+import os
 
 def main():
+    os.system('cls')
     db = Database()
     try:
         student = Student(db)

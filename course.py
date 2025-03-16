@@ -1,7 +1,5 @@
-from database import Database
-
 class Course:
-    def __init__(self, name:str, db:Database,grade:float=0):
+    def __init__(self, name:str, db,grade:float=0):
         self._name = name
         self._db = db
         self._grade = grade
@@ -26,5 +24,5 @@ class Course:
         return None
 
     @staticmethod
-    def to_course(data, db:Database):
-        return Course(data[1], db, data[2])
+    def to_course(data, db):
+        return Course(data[0], db, data[1])

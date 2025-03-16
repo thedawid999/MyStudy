@@ -1,8 +1,11 @@
 import sqlite3
-from course import Course
+from typing import TYPE_CHECKING
 from time_goal import TimeGoal
 from value_goal import ValueGoal
-from goal import Goal
+
+if TYPE_CHECKING:
+    from goal import Goal
+    from course import Course
 
 # noinspection SqlNoDataSourceInspection
 class Database:
@@ -18,7 +21,7 @@ class Database:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 startdate TEXT NOT NULL,
-                deadline TEXT NOT NULL,   
+                deadline TEXT NOT NULL
             )
         ''')
 
@@ -26,15 +29,15 @@ class Database:
             CREATE TABLE IF NOT EXISTS valuegoals (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
-                value REAL NOT NULL,
+                grade REAL NOT NULL
             )
         ''')
 
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS courses (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                grade REAL DEFAULT 0,
+                title TEXT NOT NULL,
+                grade REAL DEFAULT 0
             )
         ''')
 
@@ -47,32 +50,33 @@ class Database:
 
     def delete_student(self):
         """deletes all data"""
-        self.cursor.execute("DELETE FROM timegoals")
-        self.cursor.execute("DELETE FROM valuegoals")
-        self.cursor.execute("DELETE FROM courses")
+        self.cursor.execute("DROP TABLE timegoals")
+        self.cursor.execute("DROP TABLE  valuegoals")
+        self.cursor.execute("DROP TABLE  courses")
+        #self.cursor.execute("DROP TABLE  sqlite_sequence")
 
     #----------------------Methods for Course Database----------------------
-    def add_course(self, course:Course):
+    def add_course(self, course:"Course"):
         """adds a course to the database, if a grade for this course exists it will be added too"""
         if course.get_grade() != 0:
-            self.cursor.execute("INSERT INTO courses (name, grade) VALUES (?, ?)", (course.get_name(), course.get_grade()))
+            self.cursor.execute("INSERT INTO courses (title, grade) VALUES (?, ?)", (course.get_name(), course.get_grade()))
         else:
-            self.cursor.execute("INSERT INTO courses (name) VALUES (?)", (course.get_name()))
+            self.cursor.execute("INSERT INTO courses (title) VALUES (?)", (course.get_name(),))
         self.conn.commit()
 
-    def delete_course(self, course:Course):
+    def delete_course(self, course:"Course"):
         """deletes a course from the database"""
-        self.cursor.execute("DELETE FROM courses WHERE name = ?", (course.get_name()))
+        self.cursor.execute("DELETE FROM courses WHERE title = ?", (course.get_name(),))
         self.conn.commit()
 
-    def add_grade(self, course:Course):
+    def add_grade(self, course:"Course"):
         """adds a grade to its course"""
-        self.cursor.execute("UPDATE courses SET grade = ? WHERE name = ?", (course.get_grade(), course.get_name()))
+        self.cursor.execute("UPDATE courses SET grade = ? WHERE title = ?", (course.get_grade(), course.get_name()))
         self.conn.commit()
 
-    def delete_grade(self, course:Course):
+    def delete_grade(self, course:"Course"):
         """deletes a grade from the database"""
-        self.cursor.execute("UPDATE courses SET grade = 0 WHERE name = ?", (course.get_name()))
+        self.cursor.execute("UPDATE courses SET grade = 0 WHERE title = ?", (course.get_name(),))
         self.conn.commit()
 
     def get_courses(self):
@@ -80,28 +84,28 @@ class Database:
         if self.is_table_empty("courses"):
             return []
         else:
-            self.cursor.execute("SELECT name,grade FROM courses")
+            self.cursor.execute("SELECT title,grade FROM courses")
             return self.cursor.fetchall()
 
     #----------------------Methods for TimeGoal and ValueGoal Database----------------------
-    def add_goal(self, goal: Goal):
+    def add_goal(self, goal: "Goal"):
         """adds a TimeGoal or ValueGoal to the database"""
         if isinstance(goal, TimeGoal):
             self.cursor.execute("INSERT INTO timegoals (title, startdate, deadline) VALUES (?,?,?)",
                                 (goal.get_title(), goal.get_startdate(), goal.get_deadline()))
         elif isinstance(goal, ValueGoal):
-            self.cursor.execute("INSERT INTO valuegoals (title, value) VALUES (?,?)",
+            self.cursor.execute("INSERT INTO valuegoals (title, grade) VALUES (?,?)",
                                 (goal.get_title(), goal.get_value()))
         else:
             raise TypeError("Goal must be of type TimeGoal or ValueGoal")
         self.conn.commit()
 
-    def delete_goal(self, goal:Goal):
+    def delete_goal(self, goal:"Goal"):
         """deletes a time goal from the database"""
         if isinstance(goal, TimeGoal):
-            self.cursor.execute("DELETE FROM timegoals WHERE title = ?", (goal.get_title()))
+            self.cursor.execute("DELETE FROM timegoals WHERE title = ?", (goal.get_title(),))
         elif isinstance(goal, ValueGoal):
-            self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", (goal.get_title())
+            self.cursor.execute("DELETE FROM valuegoals WHERE title = ?", (goal.get_title(),))
         else:
             raise TypeError("Goal must be of type TimeGoal or ValueGoal")
         self.conn.commit()
@@ -117,9 +121,9 @@ class Database:
     def get_value_goals(self):
         """returns all value goals from database if any exists"""
         if self.is_table_empty("valuegoals"):
-            return None
+            return []
         else:
-            self.cursor.execute("SELECT title, value FROM valuegoals")
+            self.cursor.execute("SELECT title, grade FROM valuegoals")
             return self.cursor.fetchall()
 
     def close(self):

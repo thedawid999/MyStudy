@@ -1,14 +1,17 @@
 from event_handler import EventHandler
 from visualizer import Visualizer
 from event import Event
+import os
 
 class Reader:
     @staticmethod
     def read_input():
-        user_input = input("your input: ").lower().split()
+        user_input = input("your input: ").lower().split(" ")
 
         command = user_input[0]
         args = user_input[1:]
+
+        os.system('cls')
 
         match command:
             case "help":
@@ -32,7 +35,7 @@ class Reader:
                 EventHandler.publish(Event.DELETE_COURSE, args)
                 Visualizer.show_dashboard()
             case "delstudent":
-                EventHandler.publish(Event.DELETE_STUDENT, None)
+                EventHandler.publish(Event.DELETE_STUDENT, args)
                 exit()
             case "showgrades":
                 Visualizer.show_grades()
@@ -40,3 +43,6 @@ class Reader:
                 Visualizer.show_dashboard()
             case "exit":
                 exit()
+            case _:
+                print("invalid command")
+                Visualizer.show_dashboard()
