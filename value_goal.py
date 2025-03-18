@@ -16,6 +16,7 @@ class ValueGoal(Goal):
 
     @staticmethod
     def calculate_average(student: "Student"):
+        """returns the average of all grades"""
         grades = ValueGoal.__extract_grades(student)
         if len(grades) == 0:
             return 0.0
@@ -24,15 +25,14 @@ class ValueGoal(Goal):
 
     @staticmethod
     def calculate_min_grade(student: "Student"):
+        """calculates the minimum grade the student needs to achieve in order to complete the value goal"""
         grades = ValueGoal.__extract_grades(student)
         courses = student.get_courses()
         value = 0
 
-
         for goal in student.get_goals():
             if isinstance(goal, ValueGoal):
                 value = goal.get_value()
-
         try:
             minimum = (value*len(courses)-sum(grades))/(len(courses)-len(grades))
         except ZeroDivisionError:
@@ -41,6 +41,7 @@ class ValueGoal(Goal):
 
     @staticmethod
     def __extract_grades(student:"Student"):
+        """returns only grades from courses list"""
         grades = []
         for course in student.get_courses():
             if course.get_grade() != 0:
@@ -49,4 +50,5 @@ class ValueGoal(Goal):
 
     @staticmethod
     def to_valuegoal(data):
+        """converts db-data into a ValueGoal object"""
         return ValueGoal(data[0], data[1])

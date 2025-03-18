@@ -6,6 +6,7 @@ import os
 class Reader:
     @staticmethod
     def read_input():
+        """reads user input and publishes the associated event"""
         user_input = input("your input: ").lower().split(" ")
 
         command = user_input[0]

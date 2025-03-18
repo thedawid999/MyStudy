@@ -134,6 +134,11 @@ class Visualizer:
 
     @staticmethod
     def get_grade(grade, min_grade):
+        """
+        - if a grade exists, shows the grade
+        - if a grade does not exist, but a minimum grade to achieve value goal exists, shows the minimum grade
+        - else show N/A
+        """
         if grade != 0:
             return f"{grade}"
         elif min_grade !=0:

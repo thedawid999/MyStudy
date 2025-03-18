@@ -181,6 +181,7 @@ class Student:
         print("[red italic]--> course does not exist!")
 
     def calculate_finished_courses(self):
+        """sums up all courses with a grade other than 0.0 (no grade)"""
         finished = 0
         for course in self._courses:
             if course.get_grade() != 0:
@@ -188,6 +189,7 @@ class Student:
         return finished
 
     def delete_student(self, args):
+        """deletes the student from database and exists the program"""
         self._db.delete_student()
         exit()
 

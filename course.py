@@ -25,4 +25,5 @@ class Course:
 
     @staticmethod
     def to_course(data, db):
+        """converts db-data into a Course object"""
         return Course(data[0], db, data[1])

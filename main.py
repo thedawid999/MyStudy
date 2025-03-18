@@ -7,6 +7,7 @@ import os
 def main():
     os.system('cls')
     db = Database()
+
     try:
         student = Student(db)
         Visualizer.set_student(student)

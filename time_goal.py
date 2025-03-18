@@ -18,6 +18,8 @@ class TimeGoal(Goal):
         return duration
 
     def calculate_remaining_time_percentage(self):
+        """returns the time from project's beginning up to today and converts it in percentage, based on
+        when the deadline is"""
         if date.today() < self._startdate:
             return 0
         else:
@@ -26,8 +28,10 @@ class TimeGoal(Goal):
             return percentage
 
     def calculate_days_left(self):
+        """returns days left to a deadline"""
         return (self._deadline - date.today()).days
 
     @staticmethod
     def to_timegoal(data):
+        """converts db-data into a TimeGoal object"""
         return TimeGoal(data[0], data[1], data[2])

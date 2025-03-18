@@ -127,5 +127,6 @@ class Database:
             return self.cursor.fetchall()
 
     def close(self):
+        """closes the database"""
         self.cursor.close()
 
