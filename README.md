@@ -1,7 +1,18 @@
-# MyStudy
 
+# 🧑‍🎓 MyStudy
 Ein interaktives Terminal-Dashboard zur Verwaltung von Studienzielen, Kursen und Noten.
 Das Programm läuft komplett im Terminal und nutzt die Bibliothek [rich](https://github.com/Textualize/rich) für eine übersichtliche, farbige Darstellung.
+
+***
+
+## 👤 Projektinformationen
+
+| **Autor** | thedawid999 |
+| :--- | :--- |
+| **Studiengang** | Angewandte Künstliche Intelligenz |
+| **Projekt/Modul** | Python - Portfolio |
+
+***
 
 ## Screenshots
 
